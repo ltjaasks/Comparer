@@ -26,6 +26,7 @@ public class Comparer {
 		}
         String filePath1 = args[0];
         String filePath2 = args[1];
+        
 		File file1 = new File(filePath1);
 		File file2 = new File(filePath2);
 		// Check if files exist and compare them if they do
@@ -39,6 +40,9 @@ public class Comparer {
 	}
 	
 	
+	/*
+	 * Writes the results in a file
+	 */
 	private static void writeFile() {
 		try {
 			BufferedWriter writer = new BufferedWriter(new FileWriter("results.txt"));
@@ -98,6 +102,7 @@ public class Comparer {
 	public static void handleDifference() {
 		String tempLine1 = line1;	// Store line1 where difference was detected
 		String tempLine2 = line2;	// Store line2 where difference was detected
+		int tempLineNum = lineNum; // If lines have been deleted returns the line number to correct position
 		Boolean firstLineCompare = true;
 		StringBuilder tempNewLines = new StringBuilder("Lines added on line " + lineNum + ":\r\n");
 		StringBuilder tempDeletedLines = new StringBuilder("Lines deleted on line " + lineNum + ":\r\n");
@@ -126,6 +131,7 @@ public class Comparer {
 			}
 			// True if lines have been deleted on file2
 			if (line1.equals(tempLine2)) {
+				lineNum = tempLineNum;
 				deletedLines.append(tempDeletedLines);
 				reader2.reset();
 				return;
